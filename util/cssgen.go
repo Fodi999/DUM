@@ -1,3 +1,4 @@
+//utils/cssgen.go
 package util
 
 import (
@@ -9,7 +10,7 @@ import (
 )
 
 func GenerateCSS() {
-    htmlFiles, err := filepath.Glob("components/*.html")
+    htmlFiles, err := filepath.Glob("components/html/*.html")
     if err != nil {
         fmt.Println("Error reading html files", err)
         return
@@ -121,4 +122,3 @@ func GenerateCSS() {
         return
     }
 }
-
