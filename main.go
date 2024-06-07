@@ -1,6 +1,7 @@
 package main
 
 import (
+    "bufio"
     "dum/components"
     "dum/middlewares"
     "dum/router"
@@ -10,6 +11,7 @@ import (
     "net/http"
     "os"
     "path/filepath"
+    "strings"
     "sync"
     "time"
 )
@@ -18,6 +20,7 @@ var (
     mu        sync.Mutex
     lastMod   time.Time
     clients   = make(map[chan bool]struct{})
+    r         = router.NewRouter()
 )
 
 var spinnerChars = []rune{'⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'}
@@ -35,7 +38,7 @@ var colors = []string{
 func watchFiles() {
     for {
         time.Sleep(1 * time.Second)
-        modTime := getLastModificationTime("components", "static/css")
+        modTime := getLastModificationTime("templates", "static/css")
         mu.Lock()
         if modTime.After(lastMod) {
             lastMod = modTime
@@ -70,35 +73,8 @@ func getLastModificationTime(dirs ...string) time.Time {
     return latestMod
 }
 
-// fileWatcherHandler обрабатывает запросы на обновление файлов.
-func fileWatcherHandler(w http.ResponseWriter, r *http.Request) {
-    flusher, ok := w.(http.Flusher)
-    if !ok {
-        http.Error(w, "Streaming unsupported!", http.StatusInternalServerError)
-        return
-    }
-
-    notify := make(chan bool)
-    mu.Lock()
-    clients[notify] = struct{}{}
-    mu.Unlock()
-
-    for {
-        select {
-        case <-notify:
-            w.Header().Set("Content-Type", "text/event-stream")
-            w.Header().Set("Cache-Control", "no-cache")
-            w.Header().Set("Connection", "keep-alive")
-            _, _ = w.Write([]byte("data: reload\n\n"))
-            flusher.Flush()
-            return
-        case <-r.Context().Done():
-            mu.Lock()
-            delete(clients, notify)
-            mu.Unlock()
-            return
-        }
-    }
+func addRoute(path string) {
+    r.AddRoute(path, "GET", components.RenderPageHandler)
 }
 
 func main() {
@@ -133,21 +109,27 @@ func main() {
         }
     }()
 
+    // Создание стандартного HTML файла hello.html
+    err := util.CreateDefaultHTMLFile()
+    if err != nil {
+        log.Fatalf("Error creating default HTML file: %v", err)
+    }
+
     // Генерация CSS файлов
     util.GenerateCSS()
 
-    // Создание маршрутизатора
-    r := router.NewRouter()
-    r.AddRoute("/", "GET", components.HelloHandler)
-    r.AddRoute("/about", "GET", components.AboutHandler)
-    r.AddRoute("/contact", "GET", components.ContactHandler)
-    r.AddRoute("/watch", "GET", fileWatcherHandler)
+    // Добавление маршрутов для существующих файлов
+    addRoute("/")
+    addRoute("/about")
+    addRoute("/contact")
+    addRoute("/user/1")
 
     // Обработка статических файлов
     http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
     // Настройка обработчиков с middleware
-    http.Handle("/", middlewares.Logging(r))
+    chain := middlewares.CORS(middlewares.Logging(r))
+    http.Handle("/", chain)
 
     // Запуск наблюдения за файлами
     go watchFiles()
@@ -176,24 +158,78 @@ func main() {
 
 // monitorCommands следит за командами в терминале для управления сервером.
 func monitorCommands() {
+    reader := bufio.NewReader(os.Stdin)
     for {
-        var command string
         fmt.Print("Enter command: ")
-        _, err := fmt.Scanln(&command)
+        command, err := reader.ReadString('\n')
         if err != nil {
             fmt.Println("\033[31mError reading command: \033[0m", err)
             continue
         }
+        command = strings.TrimSpace(command)
 
         switch command {
         case "quit":
             fmt.Println("\033[32mShutting down server...\033[0m")
             os.Exit(0)
+        case "reload":
+            fmt.Println("\033[32mReloading server...\033[0m")
+            go watchFiles()
+        case "status":
+            fmt.Println("\033[32mServer is running...\033[0m")
+        case "create":
+            fmt.Print("Enter file name (e.g., about.html): ")
+            fileName, err := reader.ReadString('\n')
+            if err != nil {
+                fmt.Println("\033[31mError reading file name: \033[0m", err)
+                continue
+            }
+            fileName = strings.TrimSpace(fileName)
+            if fileName == "" {
+                fmt.Println("\033[31mInvalid file name. Please try again.\033[0m")
+                continue
+            }
+            content := `<!DOCTYPE html>
+<html>
+    <head>
+        <link href="/static/css/style.css" rel="stylesheet">
+        <title>` + fileName + `</title>
+    </head>
+    <body>
+        <nav>
+            | <a href="/">Home</a> 
+            | <a href="/about">About</a> 
+            | <a href="/contact">Contact</a> 
+            | <a href="/user/1">User</a>
+        </nav>
+        <h1>` + strings.TrimSuffix(fileName, filepath.Ext(fileName)) + `</h1>
+    </body>
+</html>`
+            err = util.CreateHTMLFile(fileName, content)
+            if err != nil {
+                fmt.Println("\033[31mError creating file: \033[0m", err)
+            } else {
+                addRoute("/" + strings.TrimSuffix(fileName, filepath.Ext(fileName)))
+                fmt.Println("\033[32mFile created successfully: \033[0m", fileName)
+            }
         default:
             fmt.Println("\033[31mUnknown command: \033[0m", command)
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

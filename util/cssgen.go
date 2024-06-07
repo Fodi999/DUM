@@ -1,4 +1,3 @@
-//utils/cssgen.go
 package util
 
 import (
@@ -10,7 +9,13 @@ import (
 )
 
 func GenerateCSS() {
-    htmlFiles, err := filepath.Glob("components/html/*.html")
+    err := os.MkdirAll("static/css", os.ModePerm)
+    if err != nil {
+        fmt.Println("Error creating static/css directory:", err)
+        return
+    }
+
+    htmlFiles, err := filepath.Glob("templates/*.html")
     if err != nil {
         fmt.Println("Error reading html files", err)
         return
@@ -33,7 +38,6 @@ func GenerateCSS() {
     }
 
     cssClasses := map[string]string{
-        //Серый цвет
         "bg-gray-100": "background-color: #f7fafc;",
         "bg-gray-200": "background-color: #edf2f7;",
         "bg-gray-300": "background-color: #e2e8f0;",
@@ -43,7 +47,6 @@ func GenerateCSS() {
         "bg-gray-700": "background-color: #4a5568;",
         "bg-gray-800": "background-color: #2d3748;",
         "bg-gray-900": "background-color: #1a202c;",
-        //Красный цвет
         "bg-red-100": "background-color: #fff5f5;",
         "bg-red-200": "background-color: #fed7d7;",
         "bg-red-300": "background-color: #feb2b2;",
@@ -53,7 +56,6 @@ func GenerateCSS() {
         "bg-red-700": "background-color: #c53030;",
         "bg-red-800": "background-color: #9b2c2c;",
         "bg-red-900": "background-color: #742a2a;",
-        //Синий цвет
         "bg-blue-100": "background-color: #ebf8ff;",
         "bg-blue-200": "background-color: #bee3f8;",
         "bg-blue-300": "background-color: #90cdf4;",
@@ -63,7 +65,6 @@ func GenerateCSS() {
         "bg-blue-700": "background-color: #2b6cb0;",
         "bg-blue-800": "background-color: #2c5282;",
         "bg-blue-900": "background-color: #2a4365;",
-        //Зеленый цвет
         "bg-green-100": "background-color: #f0fff4;",
         "bg-green-200": "background-color: #c6f6d5;",
         "bg-green-300": "background-color: #9ae6b4;",
@@ -73,7 +74,6 @@ func GenerateCSS() {
         "bg-green-700": "background-color: #2f855a;",
         "bg-green-800": "background-color: #276749;",
         "bg-green-900": "background-color: #22543d;",
-        //Желтый цвет
         "bg-yellow-100": "background-color: #fffff0;",
         "bg-yellow-200": "background-color: #fefcbf;",
         "bg-yellow-300": "background-color: #faf089;",
@@ -83,9 +83,7 @@ func GenerateCSS() {
         "bg-yellow-700": "background-color: #b7791f;",
         "bg-yellow-800": "background-color: #975a16;",
         "bg-yellow-900": "background-color: #744210;",
-        //Белый цвет
         "bg-white": "background-color: #ffffff;",
-        //Черный цвет
         "bg-black": "background-color: #000000;",
 
         "btn-primary": "background-color: #007bff; color: #fff; border-radius: 5px; padding: 10px 20px; cursor: pointer; border: none; outline: none; transition: all 0.3s ease;",
@@ -99,26 +97,33 @@ func GenerateCSS() {
         "p-2": "padding: 8px;",
     }
 
-    File, err := os.Create("static/css/style.css")
+    file, err := os.Create("static/css/style.css")
     if err != nil {
         fmt.Println("Error creating CSS file:", err)
         return
     }
-    defer File.Close()
+    defer file.Close()
 
     for class := range classSet {
         if style, exists := cssClasses[class]; exists {
-            _, err := File.WriteString(fmt.Sprintf(".%s {%s}\n", class, style))
+            _, err := file.WriteString(fmt.Sprintf(".%s {%s}\n", class, style))
             if err != nil {
                 fmt.Println("Error writing to CSS file:", err)
                 return
             }
         }
     }
-    globalStyle := "body, html {margin: 0; padding: 0;font-family: 'Arial', sans-serif;height: 100%;}\n\n@keyframes slideIn {\n\tfrom { transform: translateX(-100%); opacity: 0; }\n\tto { transform: translateX(0); opacity: 1; }\n}\n"
-    _, err = File.WriteString(globalStyle)
+    globalStyle := "body, html {margin: 0; padding: 0; font-family: 'Arial', sans-serif; height: 100%;}\n\n@keyframes slideIn {\n\tfrom { transform: translateX(-100%); opacity: 0; }\n\tto { transform: translateX(0); opacity: 1; }\n}\n"
+    _, err = file.WriteString(globalStyle)
     if err != nil {
         fmt.Println("Error writing to CSS file:", err)
         return
     }
 }
+
+
+
+
+
+
+
