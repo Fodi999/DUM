@@ -1,3 +1,4 @@
+//cors.go
 package middlewares
 
 import "net/http"
@@ -13,5 +14,9 @@ func CORS(next http.Handler) http.Handler {
         next.ServeHTTP(w, r)
     })
 }
+
+ 
+
+ 
 
  

@@ -25,8 +25,11 @@ func CreateHTMLFile(fileName, content string) error {
         if err != nil {
             return fmt.Errorf("error writing to HTML file: %v", err)
         }
+    } else if err == nil {
+        // Файл уже существует, не возвращаем ошибку, просто выходим из функции
+        return nil
     } else {
-        return fmt.Errorf("file already exists")
+        return fmt.Errorf("error checking if file exists: %v", err)
     }
     return nil
 }
@@ -34,23 +37,29 @@ func CreateHTMLFile(fileName, content string) error {
 // CreateDefaultHTMLFile создает стандартный HTML файл hello.html, если он не существует.
 func CreateDefaultHTMLFile() error {
     content := `<!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Default description">
         <link href="/static/css/style.css" rel="stylesheet">
         <title>Hello</title>
+        <meta name="theme-color" content="#007bff">
     </head>
     <body>
         <nav>
             | <a href="/">Home</a> 
             | <a href="/about">About</a> 
             | <a href="/contact">Contact</a> 
-            | <a href="/user/1">User</a>
+            | <a href="/user">User</a>
         </nav>
         <h1>Hello, World!</h1>
     </body>
 </html>`
     return CreateHTMLFile("hello.html", content)
 }
+
+
 
 
 

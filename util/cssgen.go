@@ -1,3 +1,4 @@
+//cssgen.go
 package util
 
 import (
@@ -38,6 +39,7 @@ func GenerateCSS() {
     }
 
     cssClasses := map[string]string{
+        "bg-slate-500": "background-color: rgb(100, 116, 139);",
         "bg-gray-100": "background-color: #f7fafc;",
         "bg-gray-200": "background-color: #edf2f7;",
         "bg-gray-300": "background-color: #e2e8f0;",
@@ -86,6 +88,10 @@ func GenerateCSS() {
         "bg-white": "background-color: #ffffff;",
         "bg-black": "background-color: #000000;",
 
+        "font-sans": `font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";`,
+        "font-serif": `font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;`,
+        "font-mono": `font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
+
         "btn-primary": "background-color: #007bff; color: #fff; border-radius: 5px; padding: 10px 20px; cursor: pointer; border: none; outline: none; transition: all 0.3s ease;",
         "btn-primary:active": "background-color: #003680;",
         "btn-primary:focus": "box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);",
@@ -120,6 +126,13 @@ func GenerateCSS() {
         return
     }
 }
+
+
+
+
+
+
+
 
 
 

@@ -1,3 +1,4 @@
+//logging.go
 package middlewares
 
 import (
@@ -12,4 +13,7 @@ func Logging(next http.Handler) http.Handler {
         log.Println("After request middleware")
     })
 }
+
+
+
 

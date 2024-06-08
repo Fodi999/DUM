@@ -122,7 +122,7 @@ func main() {
     addRoute("/")
     addRoute("/about")
     addRoute("/contact")
-    addRoute("/user/1")
+    addRoute("/user")
 
     // Обработка статических файлов
     http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
@@ -200,7 +200,7 @@ func monitorCommands() {
             | <a href="/">Home</a> 
             | <a href="/about">About</a> 
             | <a href="/contact">Contact</a> 
-            | <a href="/user/1">User</a>
+            | <a href="/user">User</a>
         </nav>
         <h1>` + strings.TrimSuffix(fileName, filepath.Ext(fileName)) + `</h1>
     </body>
@@ -217,6 +217,76 @@ func monitorCommands() {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
 
 
 
