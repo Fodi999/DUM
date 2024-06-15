@@ -54,10 +54,18 @@ func CreateDefaultHTMLFile() error {
             | <a href="/user">User</a>
         </nav>
         <h1>Hello, World!</h1>
+        <script src="/static/js/script.js"></script>
     </body>
 </html>`
     return CreateHTMLFile("hello.html", content)
 }
+
+
+
+
+
+
+
 
 
 
