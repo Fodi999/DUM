@@ -53,6 +53,8 @@ func GenerateCSS() {
         // Padding
         "p-2": "padding: 8px;",
 
+        "rounded-full": "border-radius: 50%;",
+
         // Background colors
         "bg-black": "background-color: rgb(0 0 0);",
         "bg-transparent": "background-color: transparent;",
