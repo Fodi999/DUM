@@ -6,6 +6,7 @@ import (
     "path/filepath"
     "regexp"
     "strings"
+    "dum/util/library"
 )
 
 func GenerateCSS() {
@@ -37,36 +38,12 @@ func GenerateCSS() {
         }
     }
 
-    cssClasses := map[string]string{
-        // Fonts
-        "font-sans": `font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";`,
-        "font-serif": `font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;`,
-        "font-mono": `font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
-        
-        // Text colors
-        "text-gray-700": "color: #4a5568;",
-        "text-red-500": "color: #f56565;",
-        "text-center": "text-align: center;",
-        "text-orange-500": "color: rgb(249 115 22);",
-        "text-sky-800": "color: rgb(7 89 133);",
+    cssClasses := map[string]string{}
 
-        // Padding
-        "p-2": "padding: 8px;",
-
-        "rounded-full": "border-radius: 50%;",
-
-        // Background colors
-        "bg-black": "background-color: rgb(0 0 0);",
-        "bg-transparent": "background-color: transparent;",
-        "bg-current": "background-color: currentColor;",
-        "bg-zinc-500": "background-color: rgb(113 113 122);",
-        "bg-red-500": "background-color: rgb(239 68 68);",
-        "bg-orange-500": "background-color: rgb(249 115 22);",
-        "bg-yellow-500": "background-color: rgb(234 179 8);",
-        "bg-cyan-500": "background-color: rgb(6 182 212);",
-        "bg-indigo-500": "background-color: rgb(99 102 241);",
-        "bg-rose-500": "background-color: rgb(244 63 94);",
-    }
+    // Add styles from separate files
+    library.AddTextColors(cssClasses)
+    library.AddTypography(cssClasses) // Предполагается, что функция принимает аргумент cssClasses
+    library.AddBackgroundColors(cssClasses)
 
     file, err := os.Create("static/css/style.css")
     if err != nil {
@@ -84,12 +61,10 @@ func GenerateCSS() {
             }
         }
     }
-    globalStyle := "body, html {margin: 0; padding: 0; font-family: 'Arial', sans-serif; height: 100%;}\n\n@keyframes slideIn {\n\tfrom { transform: translateX(-100%); opacity: 0; }\n\tto { transform: translateX(0); opacity: 1; }\n}\n"
+    globalStyle := ""
     _, err = file.WriteString(globalStyle)
     if err != nil {
         fmt.Println("Error writing to CSS file:", err)
         return
     }
 }
-
-

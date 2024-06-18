@@ -156,3 +156,4 @@ func startServer() {
     s <- true
     fmt.Println("")
 }
+

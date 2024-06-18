@@ -42,3 +42,4 @@ func CreateDefaultJSFile() error {
     return CreateJSFile("script.js", content)
 }
 
+
