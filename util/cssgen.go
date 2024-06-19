@@ -44,6 +44,23 @@ func GenerateCSS() {
     library.AddTextColors(cssClasses)
     library.AddTypography(cssClasses) // Предполагается, что функция принимает аргумент cssClasses
     library.AddBackgroundColors(cssClasses)
+    library.AddBorderStyles(cssClasses)
+    library.AddEffects(cssClasses)
+    library.AddLayout(cssClasses)
+    library.AddBackgrounds(cssClasses)
+    library.AddGradientColorStops(cssClasses)
+    library. AddFlexboxGrid(cssClasses)
+    library.AddBorder(cssClasses)
+    library.AddSizing(cssClasses)
+    library.AddSpacing(cssClasses)
+    library.AddBorderColorStyles(cssClasses)
+    library.AddEffectsColors(cssClasses)
+    library. AddFilters(cssClasses)
+    library.AddTables(cssClasses)
+    library.AddTransitionsAndAnimations(cssClasses)
+    library.AddTransforms(cssClasses)
+    library.AddInteractivity(cssClasses)
+
 
     file, err := os.Create("static/css/style.css")
     if err != nil {

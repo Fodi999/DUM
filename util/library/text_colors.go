@@ -3,11 +3,13 @@ package library
 
 func AddTextColors(cssClasses map[string]string) {
     textColors := map[string]string{
-        "text-inherit": "color: inherit;",
-        "text-current": "color: currentColor;",
-        "text-transparent": "color: transparent;",
-        "text-black": "color: rgb(0 0 0);",
-        "text-white": "color: rgb(255 255 255);",
+        // Цвет текста
+        "text-inherit": "color: inherit;",// Наследует цвет текста от родителя
+        "text-current": "color: currentColor;",// Наследует цвет текста от текущего цвета
+        "text-transparent": "color: transparent;",// Прозрачный цвет текста
+        "text-black": "color: rgb(0 0 0);",// Черный цвет текста
+        "text-white": "color: rgb(255 255 255);",// Белый цвет текста
+        //Слаланцевый цвет
         "text-slate-50": "color: rgb(248 250 252);",
         "text-slate-100": "color: rgb(241 245 249);",
         "text-slate-200": "color: rgb(226 232 240);",
@@ -19,6 +21,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-slate-800": "color: rgb(30 41 59);",
         "text-slate-900": "color: rgb(15 23 42);",
         "text-slate-950": "color: rgb(2 6 23);",
+        //Серый цвет
         "text-gray-50": "color: rgb(249 250 251);",
         "text-gray-100": "color: rgb(243 244 246);",
         "text-gray-200": "color: rgb(229 231 235);",
@@ -30,6 +33,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-gray-800": "color: rgb(31 41 55);",
         "text-gray-900": "color: rgb(17 24 39);",
         "text-gray-950": "color: rgb(3 7 18);",
+        //Цвет цинка
         "text-zinc-50": "color: rgb(250 250 250);",
         "text-zinc-100": "color: rgb(244 244 245);",
         "text-zinc-200": "color: rgb(228 228 231);",
@@ -41,6 +45,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-zinc-800": "color: rgb(39 39 42);",
         "text-zinc-900": "color: rgb(24 24 27);",
         "text-zinc-950": "color: rgb(9 9 11);",
+        //Цвет нейтральный
         "text-neutral-50": "color: rgb(250 250 250);",
         "text-neutral-100": "color: rgb(245 245 245);",
         "text-neutral-200": "color: rgb(229 229 229);",
@@ -52,6 +57,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-neutral-800": "color: rgb(38 38 38);",
         "text-neutral-900": "color: rgb(23 23 23);",
         "text-neutral-950": "color: rgb(10 10 10);",
+        //Цвет каменный
         "text-stone-50": "color: rgb(250 250 249);",
         "text-stone-100": "color: rgb(245 245 244);",
         "text-stone-200": "color: rgb(231 229 228);",
@@ -63,6 +69,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-stone-800": "color: rgb(41 37 36);",
         "text-stone-900": "color: rgb(28 25 23);",
         "text-stone-950": "color: rgb(12 10 9);",
+        //Цвет Красный
         "text-red-50": "color: rgb(254 242 242);",
         "text-red-100": "color: rgb(254 226 226);",
         "text-red-200": "color: rgb(254 202 202);",
@@ -74,6 +81,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-red-800": "color: rgb(153 27 27);",
         "text-red-900": "color: rgb(127 29 29);",
         "text-red-950": "color: rgb(69 10 10);",
+        //Цвет Оранжевый
         "text-orange-50": "color: rgb(255 247 237);",
         "text-orange-100": "color: rgb(255 237 213);",
         "text-orange-200": "color: rgb(254 215 170);",
@@ -85,6 +93,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-orange-800": "color: rgb(154 52 18);",
         "text-orange-900": "color: rgb(124 45 18);",
         "text-orange-950": "color: rgb(67 20 7);",
+        //Цвет Янтарный
         "text-amber-50": "color: rgb(255 251 235);",
         "text-amber-100": "color: rgb(254 243 199);",
         "text-amber-200": "color: rgb(253 230 138);",
@@ -96,6 +105,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-amber-800": "color: rgb(146 64 14);",
         "text-amber-900": "color: rgb(120 53 15);",
         "text-amber-950": "color: rgb(69 26 3);",
+        //Цвет Желтый
         "text-yellow-50": "color: rgb(254 252 232);",
         "text-yellow-100": "color: rgb(254 249 195);",
         "text-yellow-200": "color: rgb(254 240 138);",
@@ -107,6 +117,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-yellow-800": "color: rgb(133 77 14);",
         "text-yellow-900": "color: rgb(113 63 18);",
         "text-yellow-950": "color: rgb(66 32 6);",
+        //Цвет Лайм
         "text-lime-50": "color: rgb(247 254 231);",
         "text-lime-100": "color: rgb(236 252 203);",
         "text-lime-200": "color: rgb(217 249 157);",
@@ -118,6 +129,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-lime-800": "color: rgb(63 98 18);",
         "text-lime-900": "color: rgb(54 83 20);",
         "text-lime-950": "color: rgb(26 46 5);",
+        //Цвет Зеленый
         "text-green-50": "color: rgb(240 253 244);",
         "text-green-100": "color: rgb(220 252 231);",
         "text-green-200": "color: rgb(187 247 208);",
@@ -129,6 +141,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-green-800": "color: rgb(22 101 52);",
         "text-green-900": "color: rgb(20 83 45);",
         "text-green-950": "color: rgb(5 46 22);",
+        //Цвет Изумрудный
         "text-emerald-50": "color: rgb(236 253 245);",
         "text-emerald-100": "color: rgb(209 250 229);",
         "text-emerald-200": "color: rgb(167 243 208);",
@@ -140,6 +153,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-emerald-800": "color: rgb(6 95 70);",
         "text-emerald-900": "color: rgb(6 78 59);",
         "text-emerald-950": "color: rgb(2 44 34);",
+        //Цвет Трава
         "text-teal-50": "color: rgb(240 253 250);",
         "text-teal-100": "color: rgb(204 251 241);",
         "text-teal-200": "color: rgb(153 246 228);",
@@ -151,6 +165,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-teal-800": "color: rgb(17 94 89);",
         "text-teal-900": "color: rgb(19 78 74);",
         "text-teal-950": "color: rgb(4 47 46);",
+        //Цвет Бирюзовый
         "text-cyan-50": "color: rgb(236 254 255);",
         "text-cyan-100": "color: rgb(207 250 254);",
         "text-cyan-200": "color: rgb(165 243 252);",
@@ -162,6 +177,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-cyan-800": "color: rgb(21 94 117);",
         "text-cyan-900": "color: rgb(22 78 99);",
         "text-cyan-950": "color: rgb(8 51 68);",
+        //Цвет Синий
         "text-sky-50": "color: rgb(240 249 255);",
         "text-sky-100": "color: rgb(224 242 254);",
         "text-sky-200": "color: rgb(186 230 253);",
@@ -173,6 +189,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-sky-800": "color: rgb(7 89 133);",
         "text-sky-900": "color: rgb(12 74 110);",
         "text-sky-950": "color: rgb(8 47 73);",
+        //Цвет Голубой
         "text-blue-50": "color: rgb(239 246 255);",
         "text-blue-100": "color: rgb(219 234 254);",
         "text-blue-200": "color: rgb(191 219 254);",
@@ -184,6 +201,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-blue-800": "color: rgb(30 64 175);",
         "text-blue-900": "color: rgb(30 58 138);",
         "text-blue-950": "color: rgb(23 37 84);",
+        //Цвет Индиго
         "text-indigo-50": "color: rgb(238 242 255);",
         "text-indigo-100": "color: rgb(224 231 255);",
         "text-indigo-200": "color: rgb(199 210 254);",
@@ -195,6 +213,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-indigo-800": "color: rgb(55 48 163);",
         "text-indigo-900": "color: rgb(49 46 129);",
         "text-indigo-950": "color: rgb(30 27 75);",
+        //Цвет Фиолетовый
         "text-violet-50": "color: rgb(245 243 255);",
         "text-violet-100": "color: rgb(237 233 254);",
         "text-violet-200": "color: rgb(221 214 254);",
@@ -206,6 +225,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-violet-800": "color: rgb(91 33 182);",
         "text-violet-900": "color: rgb(76 29 149);",
         "text-violet-950": "color: rgb(46 16 101);",
+        //Цвет Пурпурный
         "text-purple-50": "color: rgb(250 245 255);",
         "text-purple-100": "color: rgb(243 232 255);",
         "text-purple-200": "color: rgb(233 213 255);",
@@ -217,6 +237,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-purple-800": "color: rgb(107 33 168);",
         "text-purple-900": "color: rgb(88 28 135);",
         "text-purple-950": "color: rgb(59 7 100);",
+        //Цвет Фуксия
         "text-fuchsia-50": "color: rgb(253 244 255);",
         "text-fuchsia-100": "color: rgb(250 232 255);",
         "text-fuchsia-200": "color: rgb(245 208 254);",
@@ -228,6 +249,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-fuchsia-800": "color: rgb(134 25 143);",
         "text-fuchsia-900": "color: rgb(112 26 117);",
         "text-fuchsia-950": "color: rgb(74 4 78);",
+        //Цвет Розовый
         "text-pink-50": "color: rgb(253 242 248);",
         "text-pink-100": "color: rgb(252 231 243);",
         "text-pink-200": "color: rgb(251 207 232);",
@@ -239,6 +261,7 @@ func AddTextColors(cssClasses map[string]string) {
         "text-pink-800": "color: rgb(157 23 77);",
         "text-pink-900": "color: rgb(131 24 67);",
         "text-pink-950": "color: rgb(80 7 36);",
+        
         "text-rose-50": "color: rgb(255 241 242);",
         "text-rose-100": "color: rgb(255 228 230);",
         "text-rose-200": "color: rgb(254 205 211);",

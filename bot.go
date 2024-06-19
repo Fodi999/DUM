@@ -1,26 +1,4 @@
-package util
-
-import (
-    "fmt"
-    "os"
-)
-
-// CreateRobotFolder создает новую папку для бота с заданным именем.
-func CreateRobotFolder(name string) error {
-    path := "robot/" + name
-    if _, err := os.Stat(path); !os.IsNotExist(err) {
-        return fmt.Errorf("folder %s already exists", path)
-    }
-    if err := os.MkdirAll(path, os.ModePerm); err != nil {
-        return fmt.Errorf("error creating folder: %v", err)
-    }
-    return nil
-}
-
-// GenerateBotCode генерирует код бота Telegram.
-func GenerateBotCode(name string) error {
-    path := "robot/" + name + "/bot.go"
-    botCode := `package main
+package main
 
 import (
     "encoding/json"
@@ -29,38 +7,54 @@ import (
     "net/url"
     "os"
     "strconv"
-    "sync"
+    "strings"
     "time"
 )
 
-var telegramAPI = "https://api.telegram.org/bot" + os.Getenv("TELEGRAM_BOT_TOKEN_1")
-
 type Update struct {
-    UpdateID int ` + "`json:\"update_id\"`" + `
+    UpdateID int `json:"update_id"`
     Message  struct {
-        MessageID int ` + "`json:\"message_id\"`" + `
+        MessageID int `json:"message_id"`
         From      struct {
-            ID        int    ` + "`json:\"id\"`" + `
-            FirstName string ` + "`json:\"first_name\"`" + `
-            LastName  string ` + "`json:\"last_name\"`" + `
-            Username  string ` + "`json:\"username\"`" + `
-        } ` + "`json:\"from\"`" + `
+            ID        int    `json:"id"`
+            FirstName string `json:"first_name"`
+            LastName  string `json:"last_name"`
+            Username  string `json:"username"`
+        } `json:"from"`
         Chat struct {
-            ID int64 ` + "`json:\"id\"`" + `
-        } ` + "`json:\"chat\"`" + `
-        Text string ` + "`json:\"text\"`" + `
-    } ` + "`json:\"message\"`" + `
+            ID int64 `json:"id"`
+        } `json:"chat"`
+        Text string `json:"text"`
+    } `json:"message"`
 }
 
-func StartBot(wg *sync.WaitGroup) {
+func loadEnvVariables() {
+    // Загружаем все переменные окружения, которые начинаются с TELEGRAM_BOT_TOKEN_
+    for _, env := range os.Environ() {
+        if strings.HasPrefix(env, "TELEGRAM_BOT_TOKEN_") {
+            parts := strings.SplitN(env, "=", 2)
+            if len(parts) == 2 {
+                botName := strings.ToLower(strings.TrimPrefix(parts[0], "TELEGRAM_BOT_TOKEN_"))
+                bots[botName] = parts[1]
+            }
+        }
+    }
+
+    if len(bots) == 0 {
+        log.Println("Error: No TELEGRAM_BOT_TOKEN_* environment variables found")
+    }
+}
+
+func startBot(botToken string) {
     defer wg.Done()
+    telegramAPI := "https://api.telegram.org/bot" + botToken
     updatesChan := make(chan Update)
 
     // Горутина для получения обновлений
     go func() {
         offset := 0
         for {
-            updates, err := getUpdates(offset)
+            updates, err := getUpdates(telegramAPI, offset)
             if err != nil {
                 log.Println("Error getting updates:", err)
                 time.Sleep(1 * time.Second)
@@ -82,7 +76,7 @@ func StartBot(wg *sync.WaitGroup) {
                 wg.Add(1)
                 go func(update Update) {
                     defer wg.Done()
-                    err := sendMessage(update.Message.Chat.ID, "Hello, "+update.Message.From.FirstName)
+                    err := sendMessage(telegramAPI, update.Message.Chat.ID, "Hello, "+update.Message.From.FirstName)
                     if err != nil {
                         log.Println("Error sending message:", err)
                     }
@@ -95,7 +89,7 @@ func StartBot(wg *sync.WaitGroup) {
     wg.Wait()
 }
 
-func getUpdates(offset int) ([]Update, error) {
+func getUpdates(telegramAPI string, offset int) ([]Update, error) {
     resp, err := http.Get(telegramAPI + "/getUpdates?offset=" + strconv.Itoa(offset))
     if err != nil {
         return nil, err
@@ -103,8 +97,8 @@ func getUpdates(offset int) ([]Update, error) {
     defer resp.Body.Close()
 
     var result struct {
-        OK     bool     ` + "`json:\"ok\"`" + `
-        Result []Update ` + "`json:\"result\"`" + `
+        OK     bool     `json:"ok"`
+        Result []Update `json:"result"`
     }
 
     err = json.NewDecoder(resp.Body).Decode(&result)
@@ -115,7 +109,7 @@ func getUpdates(offset int) ([]Update, error) {
     return result.Result, nil
 }
 
-func sendMessage(chatID int64, text string) error {
+func sendMessage(telegramAPI string, chatID int64, text string) error {
     values := url.Values{}
     values.Set("chat_id", strconv.FormatInt(chatID, 10))
     values.Set("text", text)
@@ -127,14 +121,11 @@ func sendMessage(chatID int64, text string) error {
     defer resp.Body.Close()
 
     var result struct {
-        OK bool ` + "`json:\"ok\"`" + `
+        OK bool `json:"ok"`
     }
 
     return json.NewDecoder(resp.Body).Decode(&result)
 }
-`
-    if err := os.WriteFile(path, []byte(botCode), 0644); err != nil {
-        return fmt.Errorf("error writing bot code: %v", err)
-    }
-    return nil
-}
+
+
+
