@@ -1,0 +1,131 @@
+DUM Framework
+
+DUM Framework
+Welcome to the DUM Framework! This framework provides a simple way to create web servers, 
+manage WebSocket connections, and integrate Telegram bots.
+
+Добро пожаловать в DUM Framework! Этот фреймворк предоставляет простой способ создания веб-серверов, 
+управления WebSocket-соединениями и интеграции Telegram-ботов.
+ 
+Features / Особенности
+° Web Server / Веб-сервер: Easily create and manage routes for your web application.
+  Легко создавайте и управляйте маршрутами для вашего веб-приложения.
+
+° WebSocket Server / WebSocket-сервер: Support for real-time communication using WebSockets. 
+  Поддержка реального времени с использованием WebSockets.
+
+° Telegram Bot Integration / Интеграция Telegram-ботов: Simplified creation and management of Telegram bots. 
+  Упрощённое создание и управление Telegram-ботами.
+
+° Automatic CSS Generation / Автоматическая генерация CSS: Dynamically generate CSS based on HTML class usage. 
+  Динамическая генерация CSS на основе использования классов HTML.
+
+Getting Started / Начало работы 
+Prerequisites / Требования
+° Go 1.22 or higher / Go 1.22 или выше.
+
+° Telegram Bot API token (create your bot via BotFather) 
+  Токен API Telegram-бота (создайте бота через BotFather)
+
+Installation / Установка
+1.Clone the repository: / Клонируйте репозиторий:
+
+° git clone https://github.com/yourusername/dum-framework.git
+
+° cd dum-framework
+
+2.Create a .env file in the root directory of your project and add your Telegram bot tokens:
+  Создайте файл .env в корневом каталоге вашего проекта и добавьте токены вашего Telegram-бота:
+ 
+ TELEGRAM_BOT_TOKEN_1=your-telegram-bot-token-1
+ TELEGRAM_BOT_TOKEN_2=your-telegram-bot-token-2
+
+3.Build and run the project: / Соберите и запустите проект:
+
+ go run .
+
+Usage / Использование
+
+ The framework provides a command-line interface for managing your server and bots. Here are some of the available commands:  
+ Фреймворк предоставляет интерфейс командной строки для управления вашим сервером и ботами. Вот некоторые из доступных команд:
+
+° quit: Shut down the server. / Завершить работу сервера.
+
+° reload: Reload the server. / Перезагрузить сервер.
+
+° status: Check the status of the server. / Проверить статус сервера.
+
+° create: Create a new HTML and JS file. / Создать новый HTML и JS файл.
+
+° create_bot: Create a new Telegram bot. / Создать нового Telegram-бота.
+
+° start_bot: Start the specified bots. / Запустить указанных ботов.
+
+° list_bots: List all created bots. / Перечислить всех созданных ботов.
+
+Example Commands / Примеры команд
+1.Create a new bot / Создание нового бота:
+
+Enter command: create_bot
+Enter bot name: bot1
+Enter bot token: your-telegram-bot-token-1
+
+2.Start bots / Запуск ботов:
+
+Enter command: start_bot 1 2
+
+3.List all bots / Перечисление всех ботов:
+
+Project Structure / Структура проекта
+
+° main.go: The main entry point for the server. / Основная точка входа для сервера.
+
+° bot.go: Contains functions for managing Telegram bots. / Содержит функции для управления Telegram-ботами.
+
+° handlers.go: Contains request handlers for web pages. / Содержит обработчики запросов для веб-страниц.
+
+° router.go: Defines the router for managing HTTP routes. / Определяет маршрутизатор для управления HTTP-маршрутами.
+
+° util: Utility functions for file creation and CSS generation. / Утилитные функции для создания файлов и генерации CSS.
+
+° components: Contains the components for rendering HTML pages. / Содержит компоненты для рендеринга HTML-страниц.
+
+° middlewares: Middleware functions for handling CORS and logging. / Функции промежуточного ПО для обработки CORS и логирования.
+
+° websocket.go: Manages WebSocket connections. / Управляет WebSocket-соединениями.
+   
+Adding a New Bot to .env / Добавление нового бота в .env 
+The handleCreateBot function in main.go will automatically add the bot's token to the .env file:
+Функция handleCreateBot в main.go автоматически добавит токен бота в файл .env:
+
+func addBotToEnv(botName, botToken string) error {
+    file, err := os.OpenFile(".env", os.O_APPEND|os.O_WRONLY, 0600)
+    if (err != nil) {
+        return fmt.Errorf("Ошибка при открытии файла .env: %v", err)
+    }
+    defer file.Close()
+
+    _, err = file.WriteString(fmt.Sprintf("TELEGRAM_BOT_TOKEN_%s=%s\n", strings.ToUpper(botName), botToken))
+    if (err != nil) {
+        return fmt.Errorf("Ошибка при записи в файл .env: %v", err)
+    }
+
+    return nil
+}
+
+Contributing / Вклад
+
+Contributions are welcome! Please open an issue or submit a pull request on GitHub. 
+Вклады приветствуются! Пожалуйста, создайте issue или отправьте pull request на GitHub.
+
+License / Лицензия
+
+This project is licensed under the MIT License.
+Этот проект лицензирован на условиях лицензии MIT.
+
+Contact / Контакты
+
+gmail: fodi85999@gmail.com 
+
+
+

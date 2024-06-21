@@ -1,3 +1,4 @@
+//robotgen.go содержит функции для генерации кода бота Telegram.
 package util
 
 import (
@@ -31,9 +32,10 @@ import (
     "strconv"
     "sync"
     "time"
+    "strings"
 )
 
-var telegramAPI = "https://api.telegram.org/bot" + os.Getenv("TELEGRAM_BOT_TOKEN_1")
+var telegramAPI = "https://api.telegram.org/bot" + os.Getenv("TELEGRAM_BOT_TOKEN_" + strings.ToUpper("` + name + `"))
 
 type Update struct {
     UpdateID int ` + "`json:\"update_id\"`" + `
@@ -138,3 +140,5 @@ func sendMessage(chatID int64, text string) error {
     }
     return nil
 }
+
+

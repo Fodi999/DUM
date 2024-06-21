@@ -8,7 +8,9 @@ import (
     "os"
     "strconv"
     "strings"
+    "fmt"
     "time"
+    "bufio"
 )
 
 type Update struct {
@@ -29,22 +31,49 @@ type Update struct {
 }
 
 func loadEnvVariables() {
-    // Загружаем все переменные окружения, которые начинаются с TELEGRAM_BOT_TOKEN_
-    for _, env := range os.Environ() {
-        if strings.HasPrefix(env, "TELEGRAM_BOT_TOKEN_") {
-            parts := strings.SplitN(env, "=", 2)
-            if len(parts) == 2 {
-                botName := strings.ToLower(strings.TrimPrefix(parts[0], "TELEGRAM_BOT_TOKEN_"))
-                bots[botName] = parts[1]
-            }
+    // Открытие файла .env
+    file, err := os.Open(".env")
+    if err != nil {
+        log.Fatalf("Ошибка при открытии файла .env: %v", err)
+    }
+    defer file.Close()
+
+    // Чтение файла построчно
+    scanner := bufio.NewScanner(file)
+    for scanner.Scan() {
+        line := scanner.Text()
+        // Пропуск комментариев и пустых строк
+        if strings.TrimSpace(line) == "" || strings.HasPrefix(line, "#") {
+            continue
+        }
+        // Разделение строки на ключ и значение
+        parts := strings.SplitN(line, "=", 2)
+        if len(parts) != 2 {
+            log.Printf("Некорректная строка в .env: %s", line)
+            continue
+        }
+        key := strings.TrimSpace(parts[0])
+        value := strings.TrimSpace(parts[1])
+        // Установка переменной окружения
+        if err := os.Setenv(key, value); err != nil {
+            log.Fatalf("Ошибка при установке переменной окружения: %v", err)
+        }
+        // Добавление ботов в карту
+        if strings.HasPrefix(key, "TELEGRAM_BOT_TOKEN_") {
+            botName := strings.ToLower(strings.TrimPrefix(key, "TELEGRAM_BOT_TOKEN_"))
+            bots[botName] = value
         }
     }
 
-    if len(bots) == 0 {
-        log.Println("Error: No TELEGRAM_BOT_TOKEN_* environment variables found")
+    if err := scanner.Err(); err != nil {
+        log.Fatalf("Ошибка при чтении файла .env: %v", err)
+    }
+
+    fmt.Println("Bots loaded from .env file:")
+    for botName, token := range bots {
+        fmt.Printf(" - %s: %s\n", botName, token)
     }
 }
-
 func startBot(botToken string) {
     defer wg.Done()
     telegramAPI := "https://api.telegram.org/bot" + botToken
@@ -73,14 +102,11 @@ func startBot(botToken string) {
         for update := range updatesChan {
             if update.Message.Text != "" {
                 log.Printf("[%s] %s", update.Message.From.Username, update.Message.Text)
-                wg.Add(1)
-                go func(update Update) {
-                    defer wg.Done()
-                    err := sendMessage(telegramAPI, update.Message.Chat.ID, "Hello, "+update.Message.From.FirstName)
-                    if err != nil {
-                        log.Println("Error sending message:", err)
-                    }
-                }(update)
+                broadcast <- Message{Username: update.Message.From.Username, Message: update.Message.Text}
+                err := sendMessage(telegramAPI, update.Message.Chat.ID, "Hello, "+update.Message.From.FirstName)
+                if err != nil {
+                    log.Println("Error sending message:", err)
+                }
             }
         }
     }()
@@ -126,6 +152,4 @@ func sendMessage(telegramAPI string, chatID int64, text string) error {
 
     return json.NewDecoder(resp.Body).Decode(&result)
 }
-
-
 
