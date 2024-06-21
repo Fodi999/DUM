@@ -1,4 +1,4 @@
-//robotgen.go содержит функции для генерации кода бота Telegram.
+//robotgen.go and websocket.go are 100% identical.
 package util
 
 import (

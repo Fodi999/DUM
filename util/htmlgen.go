@@ -46,16 +46,23 @@ func CreateDefaultHTMLFile() error {
         <title>Hello</title>
         <meta name="theme-color" content="#007bff">
     </head>
-    <body>
-        <nav>
-            | <a href="/">Home</a> 
-            | <a href="/about">About</a> 
-            | <a href="/contact">Contact</a> 
-            | <a href="/user">User</a>
-        </nav>
-        <h1>Hello, World!</h1>
-        <script src="/static/js/script.js"></script>
-    </body>
+    <body class="bg-gray-100">
+    <nav class="bg-blue-600 p-4 text-white">
+        <a href="/" class="mr-4">Home</a>
+        <a href="/about" class="mr-4">About</a>
+        <a href="/contact" class="mr-4">Contact</a>
+        <a href="/user" class="mr-4">User</a>
+    </nav>
+    <div class="container mx-auto mt-4 p-4 bg-white shadow rounded w-96">
+        <h1 class="text-2xl font-bold mb-4">WebSocket Chat</h1>
+        <div id="messages" class="border border-gray-300 rounded p-4 h-64 overflow-y-auto bg-gray-50 mb-4"></div>
+        <form id="messageForm" class="flex">
+            <input type="text" id="messageInput" class="border border-gray-300 rounded p-2 flex-grow" placeholder="Type your message...">
+            <button type="submit" class="bg-blue-600 text-white p-2 rounded ml-2">Send</button>
+        </form>
+    </div>
+    <script src="/static/js/script.js"></script>
+</body>
 </html>`
     return CreateHTMLFile("hello.html", content)
 }

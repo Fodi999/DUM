@@ -1,3 +1,4 @@
+// bot.go
 package main
 
 import (
@@ -5,12 +6,9 @@ import (
     "log"
     "net/http"
     "net/url"
-    "os"
     "strconv"
-    "strings"
-    "fmt"
+    "sync"
     "time"
-    "bufio"
 )
 
 type Update struct {
@@ -30,56 +28,11 @@ type Update struct {
     } `json:"message"`
 }
 
-func loadEnvVariables() {
-    // Открытие файла .env
-    file, err := os.Open(".env")
-    if err != nil {
-        log.Fatalf("Ошибка при открытии файла .env: %v", err)
-    }
-    defer file.Close()
-
-    // Чтение файла построчно
-    scanner := bufio.NewScanner(file)
-    for scanner.Scan() {
-        line := scanner.Text()
-        // Пропуск комментариев и пустых строк
-        if strings.TrimSpace(line) == "" || strings.HasPrefix(line, "#") {
-            continue
-        }
-        // Разделение строки на ключ и значение
-        parts := strings.SplitN(line, "=", 2)
-        if len(parts) != 2 {
-            log.Printf("Некорректная строка в .env: %s", line)
-            continue
-        }
-        key := strings.TrimSpace(parts[0])
-        value := strings.TrimSpace(parts[1])
-        // Установка переменной окружения
-        if err := os.Setenv(key, value); err != nil {
-            log.Fatalf("Ошибка при установке переменной окружения: %v", err)
-        }
-        // Добавление ботов в карту
-        if strings.HasPrefix(key, "TELEGRAM_BOT_TOKEN_") {
-            botName := strings.ToLower(strings.TrimPrefix(key, "TELEGRAM_BOT_TOKEN_"))
-            bots[botName] = value
-        }
-    }
-
-    if err := scanner.Err(); err != nil {
-        log.Fatalf("Ошибка при чтении файла .env: %v", err)
-    }
-
-    fmt.Println("Bots loaded from .env file:")
-    for botName, token := range bots {
-        fmt.Printf(" - %s: %s\n", botName, token)
-    }
-}
-func startBot(botToken string) {
+func StartBot(botToken string, wg *sync.WaitGroup, broadcast chan Message) {
     defer wg.Done()
     telegramAPI := "https://api.telegram.org/bot" + botToken
     updatesChan := make(chan Update)
 
-    // Горутина для получения обновлений
     go func() {
         offset := 0
         for {
@@ -97,7 +50,6 @@ func startBot(botToken string) {
         }
     }()
 
-    // Горутина для обработки обновлений
     go func() {
         for update := range updatesChan {
             if update.Message.Text != "" {
@@ -110,9 +62,6 @@ func startBot(botToken string) {
             }
         }
     }()
-
-    // Ожидание завершения всех горутин
-    wg.Wait()
 }
 
 func getUpdates(telegramAPI string, offset int) ([]Update, error) {
