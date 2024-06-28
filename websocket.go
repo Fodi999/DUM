@@ -1,3 +1,4 @@
+// websocket.go
 package main
 
 import (
@@ -11,6 +12,7 @@ import (
     "sync"
     "bufio"
     "fmt"
+    "dum/util" // Импортируем утилиты
 
     "github.com/gorilla/websocket"
 )
@@ -28,6 +30,7 @@ var (
             return true
         },
     }
+    circularBuffer = util.NewCircularBuffer(100) // Создаем круговой буфер на 100 элементов
 )
 
 type Message struct {
@@ -72,6 +75,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 func handleMessages() {
     for {
         msg := <-broadcast
+        circularBuffer.Add(fmt.Sprintf("%s: %s", msg.Username, msg.Message)) // Добавляем сообщение в круговой буфер
         mu.Lock()
         for client := range wsClients {
             err := client.WriteJSON(msg)
@@ -177,6 +181,7 @@ func handleConnectionsAbout(w http.ResponseWriter, r *http.Request) {
 func handleMessagesAbout() {
     for {
         msg := <-broadcast
+        circularBuffer.Add(fmt.Sprintf("%s: %s", msg.Username, msg.Message)) // Добавляем сообщение в круговой буфер
         mu.Lock()
         for client := range wsClientsAbout {
             err := client.WriteJSON(msg)
@@ -297,6 +302,28 @@ func loadEnvVariables() {
         fmt.Printf(" - %s: %s\n", botName, token)
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

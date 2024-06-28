@@ -1,3 +1,4 @@
+//library/sizing.go
 package library
 
 // AddSizing добавляет все классы размеров в переданную карту CSS классов.

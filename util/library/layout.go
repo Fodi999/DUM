@@ -1,5 +1,6 @@
 package library
 
+// AddLayout добавляет стили макета в карту cssClasses
 func AddLayout(cssClasses map[string]string) {
     layout := map[string]string{
         "aspect-auto": "aspect-ratio: auto;", // Автоматическое соотношение сторон
@@ -76,12 +77,11 @@ func AddLayout(cssClasses map[string]string) {
 
         // Отображение
         "block": "display: block;",
-        "inline-block": "display: inline-block;",
-        "inline": "display: inline;",
+      
         "flex": "display: flex;",
-        "inline-flex": "display: inline-flex;",
+       
         "table": "display: table;",
-        "inline-table": "display: inline-table;",
+      
         "table-caption": "display: table-caption;",
         "table-cell": "display: table-cell;",
         "table-column": "display: table-column;",
@@ -92,21 +92,20 @@ func AddLayout(cssClasses map[string]string) {
         "table-row": "display: table-row;",
         "flow-root": "display: flow-root;",
         "grid": "display: grid;",
-        "inline-grid": "display: inline-grid;",
-        "contents": "display: contents;",
+     
+        
         "list-item": "display: list-item;",
-        "hidden": "display: none;",
+     
 
         // Обтекание
-        "float-start": "float: inline-start;",
-        "float-end": "float: inline-end;",
+        
+       
         "float-right": "float: right;",
         "float-left": "float: left;",
         "float-none": "float: none;",
 
         // Очистка обтекания
-        "clear-start": "clear: inline-start;",
-        "clear-end": "clear: inline-end;",
+      
         "clear-left": "clear: left;",
         "clear-right": "clear: right;",
         "clear-both": "clear: both;",
@@ -136,14 +135,13 @@ func AddLayout(cssClasses map[string]string) {
 
         // Переполнение
         "overflow-auto": "overflow: auto;",
-        "overflow-hidden": "overflow: hidden;",
+      
         "overflow-clip": "overflow: clip;",
         "overflow-visible": "overflow: visible;",
         "overflow-scroll": "overflow: scroll;",
         "overflow-x-auto": "overflow-x: auto;",
         "overflow-y-auto": "overflow-y: auto;",
-        "overflow-x-hidden": "overflow-x: hidden;",
-        "overflow-y-hidden": "overflow-y: hidden;",
+       
         "overflow-x-clip": "overflow-x: clip;",
         "overflow-y-clip": "overflow-y: clip;",
         "overflow-x-visible": "overflow-x: visible;",
@@ -173,14 +171,13 @@ func AddLayout(cssClasses map[string]string) {
         "inset-0": "inset: 0px;",
         "inset-x-0": "left: 0px; right: 0px;",
         "inset-y-0": "top: 0px; bottom: 0px;",
-        "start-0": "inset-inline-start: 0px;",
-        "end-0": "inset-inline-end: 0px;",
+      
         "top-0": "top: 0px;",
         "right-0": "right: 0px;",
 
         // Видимость
         "visible": "visibility: visible;",
-        "invisible": "visibility: hidden;",
+      
         "collapse": "visibility: collapse;",
 
         // Z-индексы
@@ -192,7 +189,9 @@ func AddLayout(cssClasses map[string]string) {
         "z-50": "z-index: 50;",
         "z-auto": "z-index: auto;",
     }
+
     for k, v := range layout {
         cssClasses[k] = v
     }
 }
+

@@ -53,12 +53,7 @@ func AddTypography(cssClasses map[string]string) {
         "tracking-wider": `letter-spacing: 0.05em;`,
         "tracking-widest": `letter-spacing: 0.1em;`,
         
-        "line-clamp-1": `overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1;`,
-        "line-clamp-2": `overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;`,
-        "line-clamp-3": `overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;`,
-        "line-clamp-4": `overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4;`,
-        "line-clamp-5": `overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5;`,
-        "line-clamp-6": `overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6;`,
+      
         "line-clamp-none": `overflow: visible; display: block; -webkit-box-orient: horizontal; -webkit-line-clamp: none;`,
         
         "leading-3": `line-height: .75rem;`, /* 12px */
@@ -121,7 +116,7 @@ func AddTypography(cssClasses map[string]string) {
         "capitalize": `text-transform: capitalize;`,
         "normal-case": `text-transform: none;`,
         
-        "truncate": `overflow: hidden; text-overflow: ellipsis; white-space: nowrap;`,
+     
         "text-ellipsis": `text-overflow: ellipsis;`,
         "text-clip": `text-overflow: clip;`,
         

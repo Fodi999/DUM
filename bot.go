@@ -102,3 +102,5 @@ func sendMessage(telegramAPI string, chatID int64, text string) error {
     return json.NewDecoder(resp.Body).Decode(&result)
 }
 
+
+
