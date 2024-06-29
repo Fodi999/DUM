@@ -1,4 +1,4 @@
- // util/circular_buffer.go
+//utils/buffer.go
 package util
 
 import (
@@ -51,6 +51,19 @@ func (cb *CircularBuffer) Get() (string, error) {
 	return item, nil
 }
 
+func (cb *CircularBuffer) GetAll() []string {
+	cb.mutex.Lock()
+	defer cb.mutex.Unlock()
+
+	var items []string
+	index := cb.start
+	for i := 0; i < cb.count; i++ {
+		items = append(items, cb.buffer[index])
+		index = (index + 1) % cb.size
+	}
+	return items
+}
+
 func (cb *CircularBuffer) IsFull() bool {
 	cb.mutex.Lock()
 	defer cb.mutex.Unlock()
@@ -62,3 +75,4 @@ func (cb *CircularBuffer) IsEmpty() bool {
 	defer cb.mutex.Unlock()
 	return cb.count == 0
 }
+

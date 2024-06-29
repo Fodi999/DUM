@@ -33,10 +33,7 @@ var (
     circularBuffer = util.NewCircularBuffer(100) // Создаем круговой буфер на 100 элементов
 )
 
-type Message struct {
-    Username string `json:"username"`
-    Message  string `json:"message"`
-}
+
 
 func handleConnections(w http.ResponseWriter, r *http.Request) {
     log.Println("New WebSocket connection request received")
@@ -302,6 +299,51 @@ func loadEnvVariables() {
         fmt.Printf(" - %s: %s\n", botName, token)
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

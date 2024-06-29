@@ -1,4 +1,4 @@
-// bot.go
+//bot.go
 package main
 
 import (
@@ -26,6 +26,11 @@ type Update struct {
         } `json:"chat"`
         Text string `json:"text"`
     } `json:"message"`
+}
+
+type Message struct {
+    Username string `json:"username"`
+    Message  string `json:"message"`
 }
 
 func StartBot(botToken string, wg *sync.WaitGroup, broadcast chan Message) {
@@ -101,6 +106,4 @@ func sendMessage(telegramAPI string, chatID int64, text string) error {
 
     return json.NewDecoder(resp.Body).Decode(&result)
 }
-
-
 
