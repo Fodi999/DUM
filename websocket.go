@@ -12,7 +12,7 @@ import (
     "sync"
     "bufio"
     "fmt"
-    "dum/util" // Импортируем утилиты
+    "github.com/Fodi999/DUM/util" // Импортируем утилиты
 
     "github.com/gorilla/websocket"
 )

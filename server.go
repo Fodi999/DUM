@@ -2,10 +2,10 @@
 package main
 
 import (
-    "dum/components"
-    "dum/middlewares"
-    "dum/router"
-    "dum/util"
+    "github.com/Fodi999/DUM/components"
+    "github.com/Fodi999/DUM/middlewares"
+    "github.com/Fodi999/DUM/router"
+    "github.com/Fodi999/DUM/util"
     "fmt"
     "log"
     "net/http"

@@ -1,4 +1,4 @@
-module dum
+module github.com/Fodi999/DUM
 
 go 1.22
 

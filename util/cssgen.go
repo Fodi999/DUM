@@ -5,7 +5,7 @@ import (
     "encoding/json"
     "fmt"
     "os"
-    "dum/util/library"
+    "github.com/Fodi999/DUM/util/library"
 )
 
 const cssFilePath = "static/css/style.css"

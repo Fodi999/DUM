@@ -3,7 +3,7 @@ package main
 
 import (
     "bufio"
-    "dum/util"
+    "github.com/Fodi999/DUM/util"
     "fmt"
     "os"
     "os/signal"
@@ -12,7 +12,7 @@ import (
     "sync"
     "syscall"
     "os/exec"
-    "log"
+    
 )
 
 var wg sync.WaitGroup
@@ -249,15 +249,7 @@ func handleStartSite(siteNames []string) {
     }
 }
 
-func logAndPrint(message string) {
-    log.Println(message)
-    printPrompt()
-}
 
-func printAndLog(message string) {
-    fmt.Println(message)
-    printPrompt()
-}
 
 
 

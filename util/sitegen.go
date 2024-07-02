@@ -1,3 +1,4 @@
+//util/sitegen.go
 package util
 
 import (
